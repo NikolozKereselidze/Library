@@ -5,11 +5,10 @@ const formContainer = document.querySelector(".form");
 const title = document.querySelector("#title");
 const author = document.querySelector("#author");
 const read = document.querySelector("#read");
+const bookContainer = document.querySelector(".book-container");
 const addButton = document.querySelector(".book-button");
 
-const myLibrary = [
-  { title: "Vepkhistkaosani", author: "Shota Rustaveli", read: true },
-];
+const myLibrary = [];
 
 function Book(title, author, read) {
   this.title = title;
@@ -29,6 +28,9 @@ const toggleHidden = function () {
 };
 addButton.addEventListener("click", () => {
   toggleHidden();
+
+  //   Hide book list
+  bookContainer.classList.toggle("hidden");
 });
 
 function addBookToLibrary(e) {
@@ -52,6 +54,7 @@ function addBookToLibrary(e) {
 
 function displayBook(book) {
   const bookList = document.querySelector(".book-list");
+  bookContainer.classList.toggle("hidden");
 
   const span = document.createElement("span");
   span.classList.add("card-span");
@@ -61,19 +64,20 @@ function displayBook(book) {
   li.classList.add("book-card");
 
   const title = document.createElement("h3");
-  title.textContent = book.title;
-
   const author = document.createElement("p");
-  author.textContent = `by ${book.author}`;
-
   const read = document.createElement("span");
-  read.textContent = book.read ? "Read" : "Not read";
+
+  myLibrary.forEach((el) => {
+    title.textContent = el.title;
+    author.textContent = `by ${el.author}`;
+    read.textContent = el.read ? "Read" : "Not read";
+  });
 
   li.appendChild(title);
   li.appendChild(author);
   li.appendChild(read);
-
   li.appendChild(span);
+
   bookList.appendChild(li);
 }
 
