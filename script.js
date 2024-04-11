@@ -26,6 +26,7 @@ const toggleHidden = function () {
   formContainer.classList.toggle("hidden");
   addButton.classList.toggle("hidden");
 };
+
 addButton.addEventListener("click", () => {
   toggleHidden();
 
@@ -60,6 +61,9 @@ function displayBook(book) {
   span.classList.add("card-span");
   span.textContent = "x";
 
+  const bookInput = document.createElement("input");
+  bookInput.type = "checkbox";
+
   const li = document.createElement("li");
   li.classList.add("book-card");
 
@@ -67,9 +71,9 @@ function displayBook(book) {
   const author = document.createElement("p");
   const read = document.createElement("span");
 
-  myLibrary.forEach((el) => {
+  myLibrary.forEach((el, i) => {
     title.textContent = el.title;
-    author.textContent = `by ${el.author}`;
+    author.textContent = `${el.author}`;
     read.textContent = el.read ? "Read" : "Not read";
   });
 
@@ -77,8 +81,26 @@ function displayBook(book) {
   li.appendChild(author);
   li.appendChild(read);
   li.appendChild(span);
+  li.appendChild(bookInput);
 
   bookList.appendChild(li);
+
+  span.addEventListener("click", () => {
+    bookList.removeChild(span.parentElement);
+    myLibrary.forEach((el, i) => {
+      if (el.title === title.textContent && el.author === author.textContent) {
+        myLibrary.splice(i, 1);
+      }
+    });
+  });
+
+  bookList.addEventListener("click", (event) => {
+    if (event.target === bookInput) {
+      const index = Array.from(bookList.children).indexOf(li);
+      myLibrary[index].read = bookInput.checked;
+      read.textContent = myLibrary[index].read ? "Read" : "Not read";
+    }
+  });
 }
 
 form.addEventListener("submit", addBookToLibrary);
