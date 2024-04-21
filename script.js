@@ -10,10 +10,12 @@ const addButton = document.querySelector(".book-button");
 
 const myLibrary = [];
 
-function Book(title, author, read) {
-  this.title = title;
-  this.author = author;
-  this.read = read;
+class Book {
+  constructor(title, author, read) {
+    this.title = title;
+    this.author = author;
+    this.read = read;
+  }
 }
 
 const formReset = function () {
